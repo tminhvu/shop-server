@@ -1,9 +1,9 @@
 const Product = require('../models/Product')
-const { verifyTokenAndAdmin } = require('./verifyToken')
+const { verifyTokenAdmin } = require('./verifyToken')
 const router = require('express').Router()
 
 // Create
-router.post("/create", verifyTokenAndAdmin, async function(req, res) {
+router.post("/create", verifyTokenAdmin, async function(req, res) {
     const newProduct = new Product(req.body)
     try {
         const savedProduct = await newProduct.save()
@@ -14,7 +14,7 @@ router.post("/create", verifyTokenAndAdmin, async function(req, res) {
 })
 
 // Update
-router.put('/update/:id', verifyTokenAndAdmin, async function(req, res) {
+router.put('/update/:id', verifyTokenAdmin, async function(req, res) {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         res.status(200).json(updatedProduct)
@@ -24,7 +24,7 @@ router.put('/update/:id', verifyTokenAndAdmin, async function(req, res) {
 })
 
 // Delete
-router.delete('/delete/:id', verifyTokenAndAdmin, async function(req, res) {
+router.delete('/delete/:id', verifyTokenAdmin, async function(req, res) {
     try {
         await Product.findByIdAndDelete(req.params.id)
         res.status(200).json('product with id ' + req.params.id + ' deleted')
@@ -34,7 +34,7 @@ router.delete('/delete/:id', verifyTokenAndAdmin, async function(req, res) {
 })
 
 // Get product
-router.get('/:id', verifyTokenAndAdmin, async function(req, res) {
+router.get('/:id', verifyTokenAdmin, async function(req, res) {
     try {
         const product = await Product.findById(req.params.id)
         res.status(200).json(product)
@@ -44,7 +44,7 @@ router.get('/:id', verifyTokenAndAdmin, async function(req, res) {
 })
 
 // Get all products
-router.get('/', verifyTokenAndAdmin, async function(req, res) {
+router.get('/', verifyTokenAdmin, async function(req, res) {
     // We can use query
     // api/products?new=true
     const queryCategory = req.query.category
@@ -67,6 +67,5 @@ router.get('/', verifyTokenAndAdmin, async function(req, res) {
         res.status(500).json(err)
     }
 })
-
 
 module.exports = router

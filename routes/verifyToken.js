@@ -22,7 +22,7 @@ const verifyToken = (req, res, next) => {
 }
 
 // Verify token and if user decrypt from token is the one making request (ie: the same as endpoint paramater) or user is admin
-const verifyTokenAndAuthorization = (req, res, next) => {
+const verifyTokenUserAndAdmin = (req, res, next) => {
     verifyToken(req, res, ()=> {
         if (req.user.id === req.params.id || req.user.isAdmin) {
             next()
@@ -32,7 +32,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
     })
 }
 
-const verifyTokenAndAdmin = (req, res, next) => {
+const verifyTokenAdmin = (req, res, next) => {
     verifyToken(req, res, ()=> {
         if (req.user.isAdmin) {
             next()
@@ -41,4 +41,4 @@ const verifyTokenAndAdmin = (req, res, next) => {
         }
     })
 }
-module.exports = {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin}
+module.exports = {verifyToken, verifyTokenUserAndAdmin, verifyTokenAdmin}

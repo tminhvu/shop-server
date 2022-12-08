@@ -1,11 +1,11 @@
-const { verifyTokenAndAuthorization, verifyTokenAndAdmin: verifyTokenAdmin } = require('./verifyToken')
+const { verifyTokenUserAndAdmin, verifyTokenAdmin } = require('./verifyToken')
 const CryptoJS = require('crypto-js')
 const User = require('../models/User')
 
 const router = require('express').Router()
 
 // Update
-router.put('/update/:id', verifyTokenAndAuthorization, async (req, res) => {
+router.put('/update/:id', verifyTokenUserAndAdmin, async (req, res) => {
     if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(req.body.password, process.env.PASSWORD_SECRET).toString()
     }
@@ -22,7 +22,7 @@ router.put('/update/:id', verifyTokenAndAuthorization, async (req, res) => {
 })
 
 // Delete
-router.delete("/delete/:id", verifyTokenAndAuthorization, async function(req, res) {
+router.delete("/delete/:id", verifyTokenUserAndAdmin, async function(req, res) {
     try {
         await User.findByIdAndDelete(req.params.id)
         res.status(200).json('user ' + req.params.id + ' deleted')
