@@ -8,4 +8,4 @@ const CARTSCHEMA = new mongoose.Schema({
     }],
 }, { timestamps: true })
 
-module.exports = mongoose.model("User", CARTSCHEMA)
+module.exports = mongoose.model("Cart", CARTSCHEMA)

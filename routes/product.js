@@ -44,12 +44,13 @@ router.get('/:id', verifyTokenAdmin, async function(req, res) {
 })
 
 // Get all products
-router.get('/', verifyTokenAdmin, async function(req, res) {
+router.get('/', async function(req, res) {
     // We can use query
     // api/products?new=true
     const queryCategory = req.query.category
     const queryNew = req.query.new
 
+    res.header("Access-Control-Allow-Origin", "*");
     try {
         let products
         if (queryCategory && queryNew) {
